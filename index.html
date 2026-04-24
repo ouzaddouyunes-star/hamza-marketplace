@@ -1,0 +1,2627 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>همزة - Marketplace المغربي</title>
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="robots" content="index, follow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwindcss.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2E7D32',
+                        secondary: '#1565C0',
+                        accent: '#FF6F00',
+                    },
+                    fontFamily: {
+                        arabic: ['Noto Sans Arabic', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Noto Sans Arabic', 'Inter', sans-serif; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.15); }
+        .card { transition: all 0.3s ease; }
+        .gradient-bg { background: linear-gradient(135deg, #2E7D32 0%, #1565C0 100%); }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        [dir="rtl"] .star { direction: ltr; }
+        .ad-banner { background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%); }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <a href="#" onclick="showPage('home')" class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-green-600 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">ه</span>
+                    </div>
+                    <span class="text-2xl font-bold text-primary">همزة</span>
+                </a>
+
+                <!-- Search -->
+                <div class="hidden md:flex flex-1 max-w-xl mx-8">
+                    <div class="relative w-full">
+                        <input type="text" id="searchInput" placeholder="ابحث عن منتج..."
+                            class="w-full px-4 py-2 pr-12 border-2 border-gray-200 rounded-full focus:border-primary focus:outline-none"
+                            onkeyup="searchProducts()">
+                        <button class="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-primary text-white rounded-full hover:bg-green-700">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Nav -->
+                <nav class="flex items-center gap-4">
+                    <select id="langSelect" onchange="changeLanguage(this.value)" class="px-3 py-2 border rounded-lg bg-white">
+                        <option value="ar">🇲🇦 العربية</option>
+                        <option value="fr">🇫🇷 Français</option>
+                        <option value="en">🇬🇧 English</option>
+                    </select>
+                    <!-- Notifications Bell -->
+                    <div class="relative">
+                        <button onclick="toggleNotifications()" id="notificationsBtn" class="relative p-2 text-gray-600 hover:text-primary transition hidden">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                            <span id="notificationBadge" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center hidden">3</span>
+                        </button>
+                        <!-- Notifications Dropdown -->
+                        <div id="notificationsDropdown" class="absolute left-0 mt-2 w-80 bg-white rounded-xl shadow-xl border hidden z-50">
+                            <div class="p-4 border-b">
+                                <h3 class="font-semibold">الإشعارات</h3>
+                            </div>
+                            <div id="notificationsList" class="max-h-96 overflow-y-auto">
+                                <div class="p-4 text-center text-gray-500">
+                                    <p class="text-sm">لا توجد إشعارات جديدة</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" onclick="showPage('login')" id="loginBtn" class="px-4 py-2 text-primary hover:bg-primary/10 rounded-lg transition">
+                        تسجيل الدخول
+                    </a>
+                    <a href="#" onclick="showPage('sell')" class="bg-primary text-white px-4 py-2 rounded-lg">
+                        + إضافة منتج
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center gap-6 py-3 overflow-x-auto">
+                <a href="#" onclick="showPage('home')" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap nav-link">الرئيسية</a>
+                <a href="#" onclick="showPage('products')" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap nav-link">المنتجات</a>
+                <a href="#" onclick="showPage('wholesale')" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap nav-link">تجارة الجملة</a>
+                <a href="#" onclick="showPage('faq')" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap nav-link">الأسئلة الشائعة</a>
+                <a href="#" onclick="showPage('terms')" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap nav-link">الشروط والأحكام</a>
+                <a href="#" onclick="showPage('contact')" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap nav-link">اتصل بنا</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Ad Revenue Dashboard (Admin Only) -->
+    <div id="adRevenueBanner" class="hidden bg-gradient-to-r from-yellow-50 to-orange-50 border-b border-orange-200">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                        <span class="text-xl">💰</span>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-orange-800">إعلانات همزة</div>
+                        <div class="text-sm text-orange-600">كل منتج يُشاهد يُحقق لك عائدات</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-orange-600" id="totalViews">0</div>
+                        <div class="text-xs text-gray-500">إجمالي المشاهدات</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-green-600" id="totalAdRevenue">0.00</div>
+                        <div class="text-xs text-gray-500">MAD - الأرباح</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="mainContent" class="flex-1">
+        <!-- Home Page -->
+        <div id="homePage" class="page">
+            <!-- Hero -->
+            <section class="gradient-bg text-white py-20 relative overflow-hidden">
+                <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cg fill=&quot;none&quot; fill-rule=&quot;evenodd&quot;%3E%3Cg fill=&quot;%23ffffff&quot; fill-opacity=&quot;0.4&quot;%3E%3Cpath d=&quot;M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z&quot;/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+                <div class="container mx-auto px-4 relative z-10">
+                    <div class="max-w-3xl fade-in">
+                        <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                            سوق همزة<br>
+                            <span class="text-yellow-300">أكبر سوق إلكتروني مغربي</span>
+                        </h1>
+                        <p class="text-xl md:text-2xl opacity-90 mb-8">
+                            اكتشف آلاف المنتجات من بائعين موثوقين في جميع أنحاء المغرب - بدون عمولة!
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="#" onclick="showPage('products')" class="bg-white text-primary px-8 py-4 rounded-full font-bold hover:bg-yellow-300 hover:text-green-900 transition shadow-lg">
+                                تصفح المنتجات →
+                            </a>
+                            <a href="#" onclick="showPage('sell')" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-primary transition">
+                                + أضف منتجك
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="container mx-auto px-4 mt-16">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div class="text-center bg-white/10 backdrop-blur-sm rounded-xl p-4"><div class="text-3xl font-bold">0</div><div class="text-sm opacity-80">منتج</div></div>
+                        <div class="text-center bg-white/10 backdrop-blur-sm rounded-xl p-4"><div class="text-3xl font-bold">0</div><div class="text-sm opacity-80">بائع</div></div>
+                        <div class="text-center bg-white/10 backdrop-blur-sm rounded-xl p-4"><div class="text-3xl font-bold">0</div><div class="text-sm opacity-80">مدينة</div></div>
+                        <div class="text-center bg-white/10 backdrop-blur-sm rounded-xl p-4"><div class="text-3xl font-bold">0%</div><div class="text-sm opacity-80">عمولة</div></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Commission Free Banner -->
+            <section class="py-8 bg-green-50 border-b border-green-200">
+                <div class="container mx-auto px-4">
+                    <div class="flex items-center justify-center gap-4 flex-wrap">
+                        <div class="flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-sm">
+                            <span class="text-2xl">🎉</span>
+                            <span class="font-semibold text-green-700">بدون عمولة - مجاني 100%</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-sm">
+                            <span class="text-2xl">💰</span>
+                            <span class="font-semibold text-green-700">عائدات إعلانات لكل مشاهدة</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-sm">
+                            <span class="text-2xl">🔒</span>
+                            <span class="font-semibold text-green-700">دفع آمن للدرهم المغربي</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categories -->
+            <section class="py-16 bg-white">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-3xl font-bold mb-8">الفئات</h2>
+                    <div id="categoriesGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-4">
+                        <!-- Categories will be inserted here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Products -->
+            <section class="py-16 bg-gray-50">
+                <div class="container mx-auto px-4">
+                    <div class="flex items-center justify-between mb-8">
+                        <h2 class="text-3xl font-bold">⭐ المنتجات المميزة</h2>
+                        <a href="#" onclick="showPage('products')" class="text-primary hover:text-green-700 font-medium">عرض الكل →</a>
+                    </div>
+                    <div id="featuredProducts" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Products will be inserted here -->
+                    </div>
+                    <div id="noProductsFeatured" class="text-center py-12 text-gray-500">
+                        <div class="text-6xl mb-4">📦</div>
+                        <p class="text-xl">لا توجد منتجات مميزة حالياً</p>
+                        <p class="text-sm mt-2">كن أول بائع وأضف منتجك!</p>
+                        <a href="#" onclick="showPage('sell')" class="inline-block mt-4 bg-primary text-white px-6 py-3 rounded-lg hover:bg-green-700">أضف منتجك الآن</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Products -->
+            <section class="py-16 bg-white">
+                <div class="container mx-auto px-4">
+                    <div class="flex items-center justify-between mb-8">
+                        <h2 class="text-3xl font-bold">أحدث المنتجات</h2>
+                        <a href="#" onclick="showPage('products')" class="text-primary hover:text-green-700 font-medium">عرض الكل →</a>
+                    </div>
+                    <div id="recentProducts" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Products will be inserted here -->
+                    </div>
+                    <div id="noProductsRecent" class="text-center py-12 text-gray-500">
+                        <div class="text-6xl mb-4">🛒</div>
+                        <p class="text-xl">المتجر فارغ - ابدأ البيع الآن!</p>
+                        <p class="text-sm mt-2">سوق همزة يوفر لك بيئة بدون عمولة</p>
+                        <a href="#" onclick="showPage('sell')" class="inline-block mt-4 bg-primary text-white px-6 py-3 rounded-lg hover:bg-green-700">أضف منتجك مجاناً</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Wholesale CTA -->
+            <section class="py-16 bg-gradient-to-r from-blue-900 to-blue-700 text-white text-center">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">هل أنت مورد أو تاجر جملة؟</h2>
+                    <p class="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
+                        انضم إلى منصتنا واعرض منتجاتك لآلاف المشترين في المغرب والعالم
+                    </p>
+                    <a href="#" onclick="showPage('wholesale')" class="inline-block bg-white text-primary px-8 py-4 rounded-full font-bold hover:bg-yellow-300 transition">
+                        اشترك الآن - 500 درهم/شهر
+                    </a>
+                </div>
+            </section>
+        </div>
+
+        <!-- Products Page -->
+        <div id="productsPage" class="page hidden">
+            <div class="container mx-auto px-4 py-8">
+                <h1 class="text-3xl font-bold mb-8">جميع المنتجات</h1>
+                <div class="bg-white rounded-xl p-4 shadow-md mb-8">
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="flex-1">
+                            <input type="text" id="productSearch" placeholder="ابحث عن منتج..."
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none"
+                                onkeyup="filterProducts()">
+                        </div>
+                        <select id="categoryFilter" onchange="filterProducts()" class="px-4 py-3 border-2 border-gray-200 rounded-lg">
+                            <option value="">جميع الفئات</option>
+                        </select>
+                        <select id="cityFilter" onchange="filterProducts()" class="px-4 py-3 border-2 border-gray-200 rounded-lg">
+                            <option value="">جميع المدن</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="allProducts" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Products will be inserted here -->
+                </div>
+                <div id="noProductsAll" class="text-center py-16 text-gray-500">
+                    <div class="text-8xl mb-6">🏪</div>
+                    <h3 class="text-2xl font-bold mb-2">لا توجد منتجات</h3>
+                    <p class="text-lg mb-4">كن أول بائع في سوق همزة!</p>
+                    <p class="text-sm mb-6 text-green-600">🎁 عرض خاص: بدون عمولة على جميع المبيعات</p>
+                    <a href="#" onclick="showPage('sell')" class="inline-block bg-primary text-white px-8 py-4 rounded-lg font-bold hover:bg-green-700">
+                        + أضف منتجك مجاناً
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Detail Page -->
+        <div id="productDetailPage" class="page hidden">
+            <div class="container mx-auto px-4 py-8">
+                <div id="productDetailContent">
+                    <!-- Product details will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="loginPage" class="page hidden">
+            <div class="min-h-screen flex items-center justify-center py-12 px-4">
+                <div class="w-full max-w-md">
+                    <div class="bg-white rounded-2xl shadow-xl p-8">
+                        <h2 class="text-2xl font-bold text-center mb-2">تسجيل الدخول</h2>
+                        <p class="text-center text-gray-600 mb-8">مرحباً بعودتك!</p>
+
+                        <div id="loginError" class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 hidden"></div>
+
+                        <form onsubmit="handleLogin(event)">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-2">البريد الإلكتروني</label>
+                                <input type="email" id="loginEmail" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none" placeholder="email@example.com">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-2">كلمة المرور</label>
+                                <input type="password" id="loginPassword" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none" placeholder="••••••••">
+                            </div>
+                            <div class="mb-6 flex items-center justify-between">
+                                <a href="#" onclick="showPage('forgotPassword')" class="text-sm text-primary hover:text-green-700">نسيت كلمة المرور؟</a>
+                            </div>
+                            <button type="submit" class="w-full bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                                تسجيل الدخول
+                            </button>
+                        </form>
+
+                        <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                            <p class="text-sm text-blue-800 font-medium mb-2">للتجربة (Demo):</p>
+                            <p class="text-xs text-blue-600">البريد: admin@hamza.ma | كلمة المرور: admin123</p>
+                        </div>
+
+                        <p class="mt-6 text-center text-gray-600">
+                            ليس لديك حساب؟ <a href="#" onclick="showPage('register')" class="text-primary hover:text-green-700 font-medium">إنشاء حساب</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forgot Password Page -->
+        <div id="forgotPasswordPage" class="page hidden">
+            <div class="min-h-screen flex items-center justify-center py-12 px-4">
+                <div class="w-full max-w-md">
+                    <div class="bg-white rounded-2xl shadow-xl p-8">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+                            </div>
+                            <h2 class="text-2xl font-bold">نسيت كلمة المرور؟</h2>
+                            <p class="text-gray-600 mt-2">أدخل بريدك الإلكتروني أو رقم هاتفك لاستعادة حسابك</p>
+                        </div>
+
+                        <div id="forgotError" class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 hidden"></div>
+                        <div id="forgotSuccess" class="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700 hidden"></div>
+
+                        <form id="forgotForm" onsubmit="handleForgotPassword(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">البريد الإلكتروني أو رقم الهاتف</label>
+                                <input type="text" id="forgotEmail" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none" placeholder="ouyunes@gmail.com أو 0660946295">
+                            </div>
+                            <button type="submit" class="w-full bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                                استعادة كلمة المرور
+                            </button>
+                        </form>
+
+                        <div class="mt-6 p-4 bg-yellow-50 rounded-lg">
+                            <p class="text-sm text-yellow-800 font-medium mb-2">🔐 أمان الحساب:</p>
+                            <p class="text-xs text-yellow-700">إذا لم تتمكن من استعادة حسابك، تواصل مع الدعم مباشرة:</p>
+                            <div class="mt-2 space-y-1">
+                                <a href="mailto:ouyunes@gmail.com" class="text-sm text-yellow-900 flex items-center gap-2">
+                                    <span>📧</span> ouyunes@gmail.com
+                                </a>
+                                <a href="tel:+212660946295" class="text-sm text-yellow-900 flex items-center gap-2">
+                                    <span>📞</span> +212 6 60 94 62 95
+                                </a>
+                            </div>
+                        </div>
+
+                        <p class="mt-6 text-center text-gray-600">
+                            تذكرت كلمة المرور؟ <a href="#" onclick="showPage('login')" class="text-primary hover:text-green-700 font-medium">تسجيل الدخول</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Page -->
+        <div id="faqPage" class="page hidden">
+            <div class="container mx-auto px-4 py-16 max-w-4xl">
+                <h1 class="text-3xl font-bold text-center mb-8">الأسئلة الشائعة</h1>
+
+                <div class="space-y-4">
+                    <!-- FAQ Item 1 -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-right flex items-center justify-between hover:bg-gray-50">
+                            <span class="font-semibold">كيف أبدأ ببيع منتجاتي؟</span>
+                            <span class="faq-arrow text-gray-400 transition-transform">▼</span>
+                        </button>
+                        <div class="faq-content hidden px-6 pb-4">
+                            <p class="text-gray-600">لبدء البيع، أنشئ حساباً جديداً ثم اضغط على "إضافة منتج" من لوحة التحكم. املأ معلومات المنتج والصور والسعر، ثم اضغط "نشر".</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 2 - UPDATED: No Commission -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-right flex items-center justify-between hover:bg-gray-50">
+                            <span class="font-semibold">ما هي العمولة على المبيعات؟</span>
+                            <span class="faq-arrow text-gray-400 transition-transform">▼</span>
+                        </button>
+                        <div class="faq-content hidden px-6 pb-4">
+                            <p class="text-gray-600"> <span class="text-green-600 font-bold">لا توجد عمولة!</span> جميع المبيعات مجانية 100%. نحن نربح من الإعلانات فقط عند مشاهدة المنتجات.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 3 - UPDATED: How Ad Revenue Works -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-right flex items-center justify-between hover:bg-gray-50">
+                            <span class="font-semibold">كيف تعمل عائدات الإعلانات؟</span>
+                            <span class="faq-arrow text-gray-400 transition-transform">▼</span>
+                        </button>
+                        <div class="faq-content hidden px-6 pb-4">
+                            <p class="text-gray-600">عند كل مشاهدة لمنتجك، تحقق المنصة عائدات من الإعلانات. هذه العائدات تساعدنا في تقديم خدمة مجانية بدون عمولة على المبيعات!</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 4 -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-right flex items-center justify-between hover:bg-gray-50">
+                            <span class="font-semibold">كيف أستلم أموالي من المبيعات؟</span>
+                            <span class="faq-arrow text-gray-400 transition-transform">▼</span>
+                        </button>
+                        <div class="faq-content hidden px-6 pb-4">
+                            <p class="text-gray-600">أدخل معلومات حسابك البنكي في لوحة التحكم > الإعدادات > الحساب البنكي. سيتم تحويل الأموال لحسابك تلقائياً.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 5 -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-right flex items-center justify-between hover:bg-gray-50">
+                            <span class="font-semibold">هل يمكنني البيع دولياً؟</span>
+                            <span class="faq-arrow text-gray-400 transition-transform">▼</span>
+                        </button>
+                        <div class="faq-content hidden px-6 pb-4">
+                            <p class="text-gray-600">نعم! يمكنك الاشتراك في قسم "تجارة الجملة" للوصول للمشترين الدوليين. يدعم النظام الدفع بالبطاقات البنكية.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 6 -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-right flex items-center justify-between hover:bg-gray-50">
+                            <span class="font-semibold">كيف يعمل التسعير بالذكاء الاصطناعي؟</span>
+                            <span class="faq-arrow text-gray-400 transition-transform">▼</span>
+                        </button>
+                        <div class="faq-content hidden px-6 pb-4">
+                            <p class="text-gray-600">عند إضافة منتج، أدخل السعر المقترح لك وسوف يقترح الذكاء الاصطناعي سعراً تنافسياً بناءً على تحليل السوق والمنافسين.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 7 -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <button onclick="toggleFAQ(this)" class="w-full px-6 py-4 text-right flex items-center justify-between hover:bg-gray-50">
+                            <span class="font-semibold">نسيت كلمة المرور، ماذا أفعل؟</span>
+                            <span class="faq-arrow text-gray-400 transition-transform">▼</span>
+                        </button>
+                        <div class="faq-content hidden px-6 pb-4">
+                            <p class="text-gray-600">اضغط على "نسيت كلمة المرور" في صفحة الدخول وأدخل بريدك الإلكتروني. إذا لم تستلم الرابط، تواصل معنا مباشرة على ouyunes@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 p-6 bg-primary/10 rounded-xl text-center">
+                    <p class="text-gray-700 mb-4">لم تجد إجابتك؟</p>
+                    <a href="#" onclick="showPage('contact')" class="inline-block bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                        تواصل معنا
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="registerPage" class="page hidden">
+            <div class="min-h-screen flex items-center justify-center py-12 px-4">
+                <div class="w-full max-w-lg">
+                    <div class="bg-white rounded-2xl shadow-xl p-8">
+                        <h2 class="text-2xl font-bold text-center mb-2">إنشاء حساب</h2>
+                        <p class="text-center text-gray-600 mb-6">أنشئ حسابك الآن وابدأ البيع - مجاني!</p>
+
+                        <div id="registerError" class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 hidden"></div>
+
+                        <form onsubmit="handleRegister(event)">
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">الاسم الكامل</label>
+                                    <input type="text" id="regName" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">رقم الهاتف</label>
+                                    <input type="tel" id="regPhone" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none" dir="ltr" placeholder="06 60 94 62 95">
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-2">البريد الإلكتروني</label>
+                                <input type="email" id="regEmail" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none" placeholder="ouyunes@gmail.com">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-2">المدينة</label>
+                                <select id="regCity" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+                                    <option value="">اختر مدينتك</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-2">كلمة المرور</label>
+                                <input type="password" id="regPassword" required minlength="6" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+                            </div>
+                            <div class="mb-6">
+                                <label class="flex items-start gap-3">
+                                    <input type="checkbox" required class="mt-1 w-4 h-4">
+                                    <span class="text-sm text-gray-600">أوافق على <a href="#" onclick="showPage('terms')" class="text-primary">الشروط والأحكام</a></span>
+                                </label>
+                            </div>
+                            <button type="submit" class="w-full bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                                إنشاء الحساب
+                            </button>
+                        </form>
+
+                        <p class="mt-6 text-center text-gray-600">
+                            لديك حساب بالفعل؟ <a href="#" onclick="showPage('login')" class="text-primary hover:text-green-700 font-medium">تسجيل الدخول</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sell Page -->
+        <div id="sellPage" class="page hidden">
+            <div class="container mx-auto px-4 py-8 max-w-4xl">
+                <h1 class="text-3xl font-bold mb-8">إضافة منتج جديد</h1>
+                <div class="bg-green-50 border border-green-200 rounded-xl p-4 mb-8">
+                    <p class="text-green-700 font-medium">🎉 إضافة المنتجات مجانية 100% - بدون عمولة على المبيعات!</p>
+                </div>
+                <form onsubmit="handleSell(event)" class="space-y-8">
+                    <!-- Images -->
+                    <div class="bg-white rounded-xl p-6 shadow-md">
+                        <h3 class="font-semibold text-lg mb-4">صور المنتج</h3>
+                        <div id="imageUpload" class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                            <label class="aspect-square border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-primary transition">
+                                <svg class="w-8 h-8 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+                                <span class="text-sm text-gray-500">أضف صورة</span>
+                                <input type="file" accept="image/*" multiple class="hidden" onchange="handleImageUpload(this)">
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Basic Info -->
+                    <div class="bg-white rounded-xl p-6 shadow-md">
+                        <h3 class="font-semibold text-lg mb-6">المعلومات الأساسية</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium mb-2">عنوان المنتج *</label>
+                                <input type="text" id="sellTitle" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none" placeholder="مثال: iPhone 14 Pro Max 256GB">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">الفئة *</label>
+                                <select id="sellCategory" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+                                    <option value="">اختر الفئة</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">الحالة</label>
+                                <select id="sellCondition" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+                                    <option value="new">جديد</option>
+                                    <option value="like_new">كالجديد</option>
+                                    <option value="good">جيد</option>
+                                    <option value="fair">مقبول</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">المدينة *</label>
+                                <select id="sellCity" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+                                    <option value="">اختر المدينة</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">السعر (درهم) *</label>
+                                <input type="number" id="sellPrice" required min="0" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none" placeholder="0">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium mb-2">الوصف *</label>
+                                <textarea id="sellDesc" required rows="5" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none" placeholder="اكتب وصفاً مفصلاً لمنتجك..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Pricing -->
+                    <div class="bg-white rounded-xl p-6 shadow-md">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="font-semibold text-lg flex items-center gap-2">
+                                <span class="text-2xl">🤖</span>
+                                التسعير بالذكاء الاصطناعي
+                            </h3>
+                            <button type="button" onclick="getAIPrice()" class="text-purple-600 hover:text-purple-700 font-medium flex items-center gap-2">
+                                احصل على اقتراح السعر
+                            </button>
+                        </div>
+                        <div id="aiPricingResult" class="hidden bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                                    <span class="text-3xl">🤖</span>
+                                </div>
+                                <div>
+                                    <div class="text-sm text-gray-500">السعر المقترح</div>
+                                    <div id="aiSuggestedPrice" class="text-3xl font-bold text-purple-600">0 درهم</div>
+                                </div>
+                            </div>
+                            <p id="aiReason" class="text-gray-600"></p>
+                            <button type="button" onclick="applyAIPrice()" class="mt-4 bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700">
+                                استخدم هذا السعر
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-primary text-white px-6 py-4 rounded-lg font-semibold hover:bg-green-700 transition flex items-center justify-center gap-2">
+                        <span>نشر المنتج مجاناً</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Wholesale Page -->
+        <div id="wholesalePage" class="page hidden">
+            <section class="gradient-bg text-white py-20">
+                <div class="container mx-auto px-4 text-center">
+                    <div class="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full mb-6">
+                        <span>🌍</span>
+                        <span>للموردين الدوليين</span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-6">قسم تجارة الجملة</h1>
+                    <p class="text-xl opacity-90 max-w-2xl mx-auto mb-8">
+                        انضم إلى منصتنا واعرض منتجاتك لآلاف المشترين في المغرب والدول العربية
+                    </p>
+                </div>
+            </section>
+
+            <section class="py-16 bg-white">
+                <div class="container mx-auto px-4 max-w-4xl">
+                    <h2 class="text-3xl font-bold text-center mb-8">خطط الاشتراك</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-white rounded-2xl p-8 shadow-lg border-2 border-gray-200">
+                            <h3 class="text-2xl font-bold mb-2">اشتراك شهري</h3>
+                            <div class="mb-6"><span class="text-4xl font-bold text-primary">500</span> <span class="text-gray-500">درهم / شهر</span></div>
+                            <ul class="space-y-3 mb-8">
+                                <li class="flex items-center gap-3"><span class="text-green-500">✓</span> رفع حتى 100 منتج</li>
+                                <li class="flex items-center gap-3"><span class="text-green-500">✓</span> دعم فني</li>
+                                <li class="flex items-center gap-3"><span class="text-green-500">✓</span> إحصائيات متقدمة</li>
+                            </ul>
+                            <button onclick="showPage('wholesalePay')" class="w-full py-3 rounded-lg font-semibold bg-gray-100 hover:bg-gray-200 transition">اشترك الآن</button>
+                        </div>
+                        <div class="bg-white rounded-2xl p-8 shadow-lg border-2 border-primary relative">
+                            <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white px-4 py-1 rounded-full text-sm font-semibold">الأكثر شعبية</div>
+                            <h3 class="text-2xl font-bold mb-2">اشتراك سنوي</h3>
+                            <div class="mb-6"><span class="text-4xl font-bold text-primary">5000</span> <span class="text-gray-500">درهم / سنة</span></div>
+                            <ul class="space-y-3 mb-8">
+                                <li class="flex items-center gap-3"><span class="text-green-500">✓</span> رفع حتى 500 منتج</li>
+                                <li class="flex items-center gap-3"><span class="text-green-500">✓</span> دعم فني 24/7</li>
+                                <li class="flex items-center gap-3"><span class="text-green-500">✓</span> إحصائيات متقدمة</li>
+                                <li class="flex items-center gap-3"><span class="text-green-500">✓</span> أولوية في الظهور</li>
+                            </ul>
+                            <button onclick="showPage('wholesalePay')" class="w-full py-3 rounded-lg font-semibold bg-primary text-white hover:bg-green-700 transition">اشترك الآن</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-16 bg-gray-50">
+                <div class="container mx-auto px-4 max-w-xl">
+                    <div class="bg-gray-50 rounded-2xl p-8">
+                        <h3 class="text-xl font-bold mb-6 flex items-center gap-3">
+                            <span>💳</span> معلومات الدفع
+                        </h3>
+                        <div class="flex items-center gap-2 mb-6 p-4 bg-green-50 rounded-lg">
+                            <span class="text-green-600">🔒</span>
+                            <span class="text-sm text-green-700">معاملات مشفرة 100%</span>
+                        </div>
+                        <form onsubmit="handleWholesalePay(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">اسم حامل البطاقة</label>
+                                <input type="text" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none" dir="ltr" placeholder="MUSTAFA ALAMI">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">رقم البطاقة</label>
+                                <input type="text" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none" dir="ltr" placeholder="1234 5678 9012 3456" maxlength="19">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">تاريخ الانتهاء</label>
+                                    <input type="text" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none" dir="ltr" placeholder="MM/YY" maxlength="5">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">CVV</label>
+                                    <input type="text" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none" dir="ltr" placeholder="123" maxlength="4">
+                                </div>
+                            </div>
+                            <div class="bg-primary/10 p-4 rounded-lg flex items-center justify-between">
+                                <span class="font-medium">المبلغ:</span>
+                                <span class="text-2xl font-bold text-primary">500 درهم</span>
+                            </div>
+                            <button type="submit" class="w-full bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                                تأكيد الدفع
+                            </button>
+                        </form>
+                        <div class="mt-6 flex items-center justify-center gap-4">
+                            <div class="bg-white px-4 py-2 rounded-lg font-semibold text-sm shadow">VISA</div>
+                            <div class="bg-white px-4 py-2 rounded-lg font-semibold text-sm shadow">MasterCard</div>
+                            <div class="bg-white px-4 py-2 rounded-lg font-semibold text-sm shadow">Maestro</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Terms Page -->
+        <div id="termsPage" class="page hidden">
+            <div class="container mx-auto px-4 py-16 max-w-4xl">
+                <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+                    <h1 class="text-3xl font-bold mb-8 text-center">الشروط والأحكام</h1>
+                    <div class="prose prose-lg max-w-none">
+                        <section class="mb-8">
+                            <h2 class="text-2xl font-bold mb-4">1. القبول</h2>
+                            <p class="text-gray-700">باستخدام موقع همزة، فإنك توافق على الالتزام بهذه الشروط والأحكام.</p>
+                        </section>
+                        <section class="mb-8">
+                            <h2 class="text-2xl font-bold mb-4">2. التسجيل</h2>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li>يجب أن يكون عمرك 18 سنة أو أكثر</li>
+                                <li>تقديم معلومات صحيحة وكاملة</li>
+                                <li>الحفاظ على سرية حسابك</li>
+                            </ul>
+                        </section>
+                        <section class="mb-8">
+                            <h2 class="text-2xl font-bold mb-4">3. المنتجات المحظورة</h2>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li>المخدرات والمواد المحظورة</li>
+                                <li>الأسلحة والذخيرة</li>
+                                <li>المنتجات المقلدة أو المسروقة</li>
+                                <li>المحتوى الإباحي أو العنيف</li>
+                            </ul>
+                        </section>
+                        <section class="mb-8">
+                            <h2 class="text-2xl font-bold mb-4">4. العمولات</h2>
+                            <div class="bg-green-50 rounded-xl p-6 border-2 border-green-200">
+                                <ul class="space-y-3">
+                                    <li class="flex items-start gap-3"><span class="text-green-500 font-bold">✓</span> <strong>العمولة: 0% - بدون عمولة!</strong></li>
+                                    <li class="flex items-start gap-3"><span class="text-primary font-bold">•</span> جميع المبيعات مجانية 100%</li>
+                                    <li class="flex items-start gap-3"><span class="text-primary font-bold">•</span> نحن نربح من الإعلانات فقط</li>
+                                    <li class="flex items-start gap-3"><span class="text-primary font-bold">•</span> العملة: الدرهم المغربي (MAD) فقط</li>
+                                    <li class="flex items-start gap-3"><span class="text-primary font-bold">•</span> الدفع: البطاقات البنكية، التحويل البنكي</li>
+                                </ul>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contactPage" class="page hidden">
+            <div class="container mx-auto px-4 py-16 max-w-2xl">
+                <h1 class="text-3xl font-bold mb-8 text-center">اتصل بنا</h1>
+                <div class="bg-white rounded-2xl shadow-xl p-8">
+                    <form onsubmit="handleContact(event)" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">الاسم</label>
+                            <input type="text" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">البريد الإلكتروني</label>
+                            <input type="email" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">الرسالة</label>
+                            <textarea rows="5" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                            إرسال
+                        </button>
+                    </form>
+                    <div class="mt-8 pt-8 border-t text-center">
+                        <p class="text-gray-600 mb-4">تواصل معنا مباشرة:</p>
+                        <div class="flex flex-col gap-3">
+                            <a href="mailto:ouyunes@gmail.com" class="text-primary hover:text-green-700">📧 ouyunes@gmail.com</a>
+                            <a href="tel:+212660946295" class="text-primary hover:text-green-700">📞 +212 6 60 94 62 95</a>
+                            <span class="text-gray-600">📍 مراكش، المغرب</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard (for logged-in users) -->
+        <div id="dashboardPage" class="page hidden">
+            <div class="container mx-auto px-4 py-8">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h1 class="text-3xl font-bold">لوحة التحكم</h1>
+                        <p class="text-gray-600 mt-1">مرحباً، <span id="dashboardUserName">المستخدم</span></p>
+                    </div>
+                    <button onclick="showPage('sell')" class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition flex items-center gap-2">
+                        + إضافة منتج
+                    </button>
+                </div>
+
+                <!-- Ad Revenue Stats -->
+                <div class="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-6 mb-8 border border-green-200">
+                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                        <span class="text-2xl">💰</span> نظام عائدات الإعلانات
+                    </h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-white rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-green-600" id="dashboardTotalViews">0</div>
+                            <div class="text-sm text-gray-500">إجمالي المشاهدات</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-blue-600" id="dashboardProductCount">0</div>
+                            <div class="text-sm text-gray-500">منتجاتك</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-purple-600" id="dashboardAdRevenue">0.00</div>
+                            <div class="text-sm text-gray-500">MAD - الأرباح</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-orange-600" id="dashboardEarningPerView">0.01</div>
+                            <div class="text-sm text-gray-500">MAD لكل مشاهدة</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Tabs -->
+                <div class="flex gap-2 mb-6 border-b">
+                    <button onclick="showDashboardTab('products')" id="tabProducts" class="px-6 py-3 font-medium text-primary border-b-2 border-primary">منتجاتي</button>
+                    <button onclick="showDashboardTab('settings')" id="tabSettings" class="px-6 py-3 font-medium text-gray-500 hover:text-primary">الإعدادات</button>
+                </div>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-white rounded-xl p-6 shadow-md">
+                        <div class="text-2xl font-bold" id="statsProducts">0</div>
+                        <div class="text-sm text-gray-500">منتجاتي</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-md">
+                        <div class="text-2xl font-bold" id="statsViews">0</div>
+                        <div class="text-sm text-gray-500">المشاهدات</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-md">
+                        <div class="text-2xl font-bold" id="statsOrders">0</div>
+                        <div class="text-sm text-gray-500">الطلبات</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-md">
+                        <div class="text-2xl font-bold text-green-600" id="statsRevenue">0</div>
+                        <div class="text-sm text-gray-500">MAD - الإيرادات</div>
+                    </div>
+                </div>
+
+                <!-- Products Tab Content -->
+                <div id="dashboardProductsTab">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- My Products -->
+                        <div class="lg:col-span-2 bg-white rounded-xl p-6 shadow-md">
+                            <h3 class="font-semibold text-lg mb-4">منتجاتي</h3>
+                            <div id="myProducts" class="space-y-4">
+                                <!-- Products will be inserted here -->
+                            </div>
+                            <div id="noMyProducts" class="text-center py-8 text-gray-500">
+                                <p class="mb-4">لا تملك أي منتجات بعد</p>
+                                <a href="#" onclick="showPage('sell')" class="text-primary hover:text-green-700">أضف منتجك الأول</a>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="bg-white rounded-xl p-6 shadow-md">
+                            <h3 class="font-semibold text-lg mb-4">إجراءات سريعة</h3>
+                            <div class="space-y-3">
+                                <button onclick="showPage('sell')" class="w-full text-right px-4 py-3 bg-primary/10 hover:bg-primary/20 rounded-lg flex items-center gap-3">
+                                    <span>➕</span> إضافة منتج جديد
+                                </button>
+                                <button onclick="showPage('products')" class="w-full text-right px-4 py-3 bg-blue-50 hover:bg-blue-100 rounded-lg flex items-center gap-3">
+                                    <span>📦</span> عرض منتجاتي
+                                </button>
+                                <button onclick="handleLogout()" class="w-full text-right px-4 py-3 bg-red-50 hover:bg-red-100 rounded-lg flex items-center gap-3 text-red-600">
+                                    <span>🚪</span> تسجيل الخروج
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Tab Content -->
+                <div id="dashboardSettingsTab" class="hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Profile Settings -->
+                        <div class="bg-white rounded-xl p-6 shadow-md">
+                            <h3 class="font-semibold text-lg mb-6 flex items-center gap-2">
+                                <span>👤</span> معلومات الحساب
+                            </h3>
+                            <form id="profileForm" onsubmit="saveProfile(event)" class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">الاسم الكامل</label>
+                                    <input type="text" id="profileName" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">البريد الإلكتروني</label>
+                                    <input type="email" id="profileEmail" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">رقم الهاتف</label>
+                                    <input type="tel" id="profilePhone" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none" placeholder="+212 6 XX XX XX XX">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">المدينة</label>
+                                    <select id="profileCity" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+                                        <option value="">اختر المدينة</option>
+                                        <option value="مراكش">مراكش</option>
+                                        <option value="الدار البيضاء">الدار البيضاء</option>
+                                        <option value="الرباط">الرباط</option>
+                                        <option value="طنجة">طنجة</option>
+                                        <option value="فاس">فاس</option>
+                                        <option value="أكادير">أكادير</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="w-full bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                                    حفظ التغييرات
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Bank Account Settings -->
+                        <div class="bg-white rounded-xl p-6 shadow-md">
+                            <h3 class="font-semibold text-lg mb-6 flex items-center gap-2">
+                                <span>🏦</span> الحساب البنكي
+                            </h3>
+                            <form id="bankForm" onsubmit="saveBankAccount(event)" class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">اسم البنك</label>
+                                    <select id="bankName" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+                                        <option value="">اختر البنك</option>
+                                        <option value="Attijariwafa Bank">Attijariwafa Bank</option>
+                                        <option value="BMCE Bank">BMCE Bank</option>
+                                        <option value="CIH Bank">CIH Bank</option>
+                                        <option value="Banque Populaire">Banque Populaire</option>
+                                        <option value="Société Générale">Société Générale</option>
+                                        <option value="Barid Bank">Barid Bank</option>
+                                        <option value="Al Barid Bank">Al Barid Bank</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">رقم الحساب (RIB)</label>
+                                    <input type="text" id="bankAccount" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none" placeholder="123456789012345678901234" maxlength="24">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">رقم الحساب البنكي الدولي (IBAN)</label>
+                                    <input type="text" id="bankIBAN" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none" placeholder="MA64 1234 5678 9012 3456 7890 123" dir="ltr" style="text-align: left;">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">رمز BIC/SWIFT</label>
+                                    <input type="text" id="bankSWIFT" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none" placeholder="BCMAMAMC" dir="ltr" style="text-align: left;">
+                                </div>
+                                <div class="bg-green-50 p-4 rounded-lg flex items-start gap-3">
+                                    <span class="text-green-600">💰</span>
+                                    <p class="text-sm text-green-700">ستتمكن من سحب أرباح الإعلانات عند توفر رصيد كافٍ. بدون عمولة على المبيعات!</p>
+                                </div>
+                                <button type="submit" class="w-full bg-secondary text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                                    حفظ الحساب البنكي
+                                </button>
+                            </form>
+                            <!-- Current Bank Info Display -->
+                            <div id="currentBankInfo" class="mt-6 p-4 bg-gray-50 rounded-lg hidden">
+                                <h4 class="font-medium mb-2">الحساب البنكي المسجل:</h4>
+                                <p class="text-sm text-gray-600" id="displayBankInfo"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Product Page -->
+        <div id="editProductPage" class="page hidden">
+            <div class="container mx-auto px-4 py-8 max-w-4xl">
+                <div class="flex items-center justify-between mb-8">
+                    <h1 class="text-3xl font-bold">تعديل المنتج</h1>
+                    <button onclick="showPage('dashboard')" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg">← رجوع</button>
+                </div>
+                <form onsubmit="saveProductEdit(event)" class="bg-white rounded-xl p-6 shadow-md space-y-6">
+                    <input type="hidden" id="editProductId">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">عنوان المنتج</label>
+                        <input type="text" id="editTitle" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+                    </div>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">السعر (درهم)</label>
+                            <input type="number" id="editPrice" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">الفئة</label>
+                            <select id="editCategory" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">المدينة</label>
+                        <select id="editCity" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none">
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">الوصف</label>
+                        <textarea id="editDescription" rows="5" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none"></textarea>
+                    </div>
+                    <div class="flex gap-4">
+                        <button type="submit" class="flex-1 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                            حفظ التغييرات
+                        </button>
+                        <button type="button" onclick="showPage('dashboard')" class="px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-semibold">
+                            إلغاء
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Rating Modal -->
+        <div id="ratingModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-bold">قيّم هذا المنتج</h2>
+                    <button onclick="closeRatingModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+                </div>
+                <form id="ratingForm" onsubmit="submitRating(event)" class="space-y-6">
+                    <input type="hidden" id="ratingProductId">
+                    <div>
+                        <label class="block text-sm font-medium mb-3">اختر التقييم:</label>
+                        <div class="flex gap-2 justify-center">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="rating" value="1" class="hidden peer">
+                                <span class="text-4xl peer-checked:text-yellow-500 text-gray-300 hover:text-yellow-400">★</span>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="rating" value="2" class="hidden peer">
+                                <span class="text-4xl peer-checked:text-yellow-500 text-gray-300 hover:text-yellow-400">★</span>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="rating" value="3" class="hidden peer">
+                                <span class="text-4xl peer-checked:text-yellow-500 text-gray-300 hover:text-yellow-400">★</span>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="rating" value="4" class="hidden peer">
+                                <span class="text-4xl peer-checked:text-yellow-500 text-gray-300 hover:text-yellow-400">★</span>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="rating" value="5" class="hidden peer">
+                                <span class="text-4xl peer-checked:text-yellow-500 text-gray-300 hover:text-yellow-400">★</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">تعليق (اختياري):</label>
+                        <textarea id="ratingComment" rows="3" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none" placeholder="اكتب تعليقك هنا..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                        إرسال التقييم
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-auto">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-primary to-green-600 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-xl">ه</span>
+                        </div>
+                        <span class="text-2xl font-bold">همزة</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">منصة التسوق المغربية الأولى - بدون عمولة!</p>
+                    <p class="text-sm text-green-400">💰 عائدات إعلانات لكل مشاهدة</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">الفئات</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" onclick="showPage('products')" class="hover:text-white">إلكترونيات</a></li>
+                        <li><a href="#" onclick="showPage('products')" class="hover:text-white">ملابس</a></li>
+                        <li><a href="#" onclick="showPage('products')" class="hover:text-white">سيارات</a></li>
+                        <li><a href="#" onclick="showPage('products')" class="hover:text-white">عقارات</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">الدعم</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" onclick="showPage('faq')" class="hover:text-white">الأسئلة الشائعة</a></li>
+                        <li><a href="#" onclick="showPage('terms')" class="hover:text-white">الشروط والأحكام</a></li>
+                        <li><a href="#" onclick="showPage('contact')" class="hover:text-white">اتصل بنا</a></li>
+                        <li><a href="#" onclick="showPage('wholesale')" class="hover:text-white">تجارة الجملة</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">تواصل معنا</h3>
+                    <ul class="space-y-3 text-gray-400">
+                        <li>📧 ouyunes@gmail.com</li>
+                        <li>📞 +212 6 60 94 62 95</li>
+                        <li>📍 مراكش، المغرب</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400 text-sm">
+                <p>© 2026 همزة. جميع الحقوق محفوظة | Developed with yunes ouzaddou</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/212660946295" target="_blank" class="fixed bottom-6 right-6 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition z-50">
+        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+
+    <script>
+        // البيانات الجديدة - معلومات التواصل
+        const CONTACT_INFO = {
+            email: 'ouyunes@gmail.com',
+            phone: '+212 6 60 94 62 95',
+            whatsapp: '212660946295',
+            city: 'مراكش',
+            country: 'المغرب'
+        };
+
+        // إعدادات عائدات الإعلانات
+        const AD_REVENUE_CONFIG = {
+            earningsPerView: 0.01, // MAD لكل مشاهدة
+            minPayout: 100, // الحد الأدنى للسحب
+            currency: 'MAD'
+        };
+
+        // Data
+        const categories = [
+            { id: 'electronics', name: 'إلكترونيات', icon: '📱', count: 0 },
+            { id: 'clothing', name: 'ملابس', icon: '👕', count: 0 },
+            { id: 'cars', name: 'سيارات', icon: '🚗', count: 0 },
+            { id: 'realEstate', name: 'عقارات', icon: '🏠', count: 0 },
+            { id: 'furniture', name: 'أثاث', icon: '🪑', count: 0 },
+            { id: 'tools', name: 'أدوات', icon: '🔧', count: 0 },
+            { id: 'food', name: 'أغذية', icon: '🍽️', count: 0 },
+            { id: 'services', name: 'خدمات', icon: '💼', count: 0 },
+        ];
+
+        const cities = ['مراكش', 'الدار البيضاء', 'الرباط', 'طنجة', 'فاس', 'أكادير', 'مكناس', 'وجدة', 'القنيطرة', 'تازة', 'كلميم', 'أكادير'];
+
+        // المنتجات فارغة - جاهزة لأول استعمال
+        let products = [];
+
+        // تتبع الإحصائيات
+        let adStats = {
+            totalViews: 0,
+            totalEarnings: 0
+        };
+
+        // State
+        let currentUser = null;
+        let currentLang = 'ar';
+
+        const translations = {
+            ar: {
+                home: 'الرئيسية', products: 'المنتجات', wholesale: 'تجارة الجملة', terms: 'الشروط والأحكام', contact: 'اتصل بنا',
+                login: 'تسجيل الدخول', register: 'إنشاء حساب', logout: 'تسجيل الخروج', searchPlaceholder: 'ابحث عن منتج...',
+                featured: 'المنتجات المميزة', recent: 'أحدث المنتجات', addProduct: 'إضافة منتج', currency: 'درهم',
+                new: 'جديد', likeNew: 'كالجديد', good: 'جيد', fair: 'مقبول',
+            },
+            fr: {
+                home: 'Accueil', products: 'Produits', wholesale: 'Commerce de gros', terms: 'Conditions', contact: 'Contact',
+                login: 'Connexion', register: "S'inscrire", logout: 'Déconnexion', searchPlaceholder: 'Rechercher un produit...',
+                featured: 'Produits en vedette', recent: 'Produits récents', addProduct: 'Ajouter un produit', currency: 'MAD',
+                new: 'Neuf', likeNew: 'Comme neuf', good: 'Bon', fair: 'Acceptable',
+            },
+            en: {
+                home: 'Home', products: 'Products', wholesale: 'Wholesale', terms: 'Terms', contact: 'Contact',
+                login: 'Login', register: 'Register', logout: 'Logout', searchPlaceholder: 'Search for a product...',
+                featured: 'Featured Products', recent: 'Recent Products', addProduct: 'Add Product', currency: 'MAD',
+                new: 'New', likeNew: 'Like New', good: 'Good', fair: 'Fair',
+            }
+        };
+
+        // Functions
+        function showPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+            const pageElement = document.getElementById(page + 'Page');
+            if (pageElement) {
+                pageElement.classList.remove('hidden');
+            }
+            window.scrollTo(0, 0);
+
+            if (page === 'products') initProductsPage();
+            if (page === 'dashboard') updateDashboard();
+            if (page === 'forgotPassword') {
+                document.getElementById('forgotError').classList.add('hidden');
+                document.getElementById('forgotSuccess').classList.add('hidden');
+            }
+        }
+
+        // Toggle Notifications
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notificationsDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        // Close notifications when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('notificationsDropdown');
+            const btn = document.getElementById('notificationsBtn');
+            if (btn && dropdown) {
+                if (!btn.contains(e.target) && !dropdown.contains(e.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            }
+        });
+
+        // Update notifications visibility based on login
+        function updateNotificationsVisibility() {
+            const btn = document.getElementById('notificationsBtn');
+            const badge = document.getElementById('notificationBadge');
+            if (currentUser) {
+                btn && btn.classList.remove('hidden');
+                badge && badge.classList.remove('hidden');
+            } else {
+                btn && btn.classList.add('hidden');
+                badge && badge.classList.add('hidden');
+            }
+        }
+
+        // Toggle FAQ
+        function toggleFAQ(button) {
+            const content = button.nextElementSibling;
+            const arrow = button.querySelector('.faq-arrow');
+            content.classList.toggle('hidden');
+            if (content.classList.contains('hidden')) {
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Handle Forgot Password
+        function handleForgotPassword(e) {
+            e.preventDefault();
+            const email = document.getElementById('forgotEmail').value;
+            const errorDiv = document.getElementById('forgotError');
+            const successDiv = document.getElementById('forgotSuccess');
+
+            errorDiv.classList.add('hidden');
+            successDiv.classList.add('hidden');
+
+            // Check if email exists in localStorage or is admin
+            if (email === 'admin@hamza.ma' || email === 'ouyunes@gmail.com' || email.includes('@')) {
+                successDiv.textContent = 'تم إرسال رابط استعادة كلمة المرور لبريدك الإلكتروني! إذا لم تستلمه، تواصل مع الدعم على ouyunes@gmail.com';
+                successDiv.classList.remove('hidden');
+                document.getElementById('forgotForm').reset();
+            } else {
+                errorDiv.textContent = 'لم يتم العثور على حساب بهذا البريد. تأكد من البريد أو تواصل مع الدعم.';
+                errorDiv.classList.remove('hidden');
+            }
+        }
+
+        // ============ إدارة المنتجات ============
+
+        function toggleFavorite(productId) {
+            if (!currentUser) {
+                showLoginRequired();
+                return;
+            }
+            const favorites = JSON.parse(localStorage.getItem('hamza-favorites') || '[]');
+            const idx = favorites.indexOf(productId);
+            if (idx > -1) {
+                favorites.splice(idx, 1);
+                alert('تم إزالة المنتج من المفضلة');
+            } else {
+                favorites.push(productId);
+                alert('تم إضافة المنتج للمفضلة ✓');
+            }
+            localStorage.setItem('hamza-favorites', JSON.stringify(favorites));
+        }
+
+        function showLoginRequired() {
+            alert('يرجى تسجيل الدخول أولاً للتواصل مع البائع أو إضافة للمفضلة');
+            showPage('login');
+        }
+
+        function editProduct(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            // Fill edit form
+            document.getElementById('editProductId').value = product.id;
+            document.getElementById('editTitle').value = product.title;
+            document.getElementById('editPrice').value = product.price;
+            document.getElementById('editDescription').value = product.description;
+
+            // Populate dropdowns
+            const editCat = document.getElementById('editCategory');
+            const editCity = document.getElementById('editCity');
+            editCat.innerHTML = categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+            editCity.innerHTML = cities.map(c => `<option value="${c}">${c}</option>`).join('');
+
+            document.getElementById('editCategory').value = product.category;
+            document.getElementById('editCity').value = product.city;
+
+            showPage('editProduct');
+        }
+
+        function saveProductEdit(e) {
+            e.preventDefault();
+            const productId = parseInt(document.getElementById('editProductId').value);
+            const productIdx = products.findIndex(p => p.id === productId);
+            if (productIdx === -1) return;
+
+            products[productIdx] = {
+                ...products[productIdx],
+                title: sanitizeHTML(document.getElementById('editTitle').value),
+                price: parseInt(document.getElementById('editPrice').value) || products[productIdx].price,
+                category: document.getElementById('editCategory').value,
+                city: document.getElementById('editCity').value,
+                description: sanitizeHTML(document.getElementById('editDescription').value)
+            };
+
+            saveProductsToStorage();
+            alert('تم تحديث المنتج بنجاح ✓');
+            initProducts();
+            showPage('dashboard');
+        }
+
+        function deleteProduct(productId) {
+            if (!confirm('هل أنت متأكد من حذف هذا المنتج؟ لا يمكن التراجع عن هذا الإجراء.')) return;
+
+            const idx = products.findIndex(p => p.id === productId);
+            if (idx > -1) {
+                products.splice(idx, 1);
+                saveProductsToStorage();
+                alert('تم حذف المنتج بنجاح ✓');
+                initProducts();
+                updateDashboard();
+            }
+        }
+
+        function markAsSold(productId) {
+            const productIdx = products.findIndex(p => p.id === productId);
+            if (productIdx === -1) return;
+
+            products[productIdx].sold = true;
+            saveProductsToStorage();
+            alert('تم تحديث حالة المنتج: تم البيع ✓');
+            initProducts();
+            updateDashboard();
+        }
+
+        function restoreProduct(productId) {
+            const productIdx = products.findIndex(p => p.id === productId);
+            if (productIdx === -1) return;
+
+            products[productIdx].sold = false;
+            saveProductsToStorage();
+            alert('تم إعادة المنتج للبيع ✓');
+            initProducts();
+        }
+
+        // ============ نظام التقييم ============
+
+        function showRatingModal(productId) {
+            if (!currentUser) {
+                showLoginRequired();
+                return;
+            }
+            document.getElementById('ratingProductId').value = productId;
+            document.getElementById('ratingForm').reset();
+            document.getElementById('ratingModal').classList.remove('hidden');
+        }
+
+        function closeRatingModal() {
+            document.getElementById('ratingModal').classList.add('hidden');
+        }
+
+        function submitRating(e) {
+            e.preventDefault();
+            const productId = parseInt(document.getElementById('ratingProductId').value);
+            const rating = parseInt(document.querySelector('input[name="rating"]:checked')?.value || 0);
+            const comment = sanitizeHTML(document.getElementById('ratingComment').value);
+
+            if (rating === 0) {
+                alert('يرجى اختيار تقييم');
+                return;
+            }
+
+            const productIdx = products.findIndex(p => p.id === productId);
+            if (productIdx === -1) return;
+
+            // Update product rating
+            const currentReviews = products[productIdx].reviews || 0;
+            const currentRating = products[productIdx].rating || 4;
+            const newReviews = currentReviews + 1;
+            const newRating = ((currentRating * currentReviews) + rating) / newReviews;
+            products[productIdx].rating = Math.round(newRating * 10) / 10;
+            products[productIdx].reviews = newReviews;
+
+            saveProductsToStorage();
+            alert('شكراً لك! تم إرسال تقييمك بنجاح ✓');
+            closeRatingModal();
+            initProducts();
+        }
+
+        // ============ نظام عائدات الإعلانات ============
+
+        function trackProductView(productId) {
+            // تحديث عدد مشاهدات المنتج
+            const productIdx = products.findIndex(p => p.id === productId);
+            if (productIdx > -1) {
+                products[productIdx].views = (products[productIdx].views || 0) + 1;
+
+                // حساب الأرباح
+                const earnings = AD_REVENUE_CONFIG.earningsPerView;
+                adStats.totalViews++;
+                adStats.totalEarnings += earnings;
+
+                // حفظ البيانات
+                saveProductsToStorage();
+                saveAdStats();
+                updateAdStatsDisplay();
+            }
+        }
+
+        function saveAdStats() {
+            localStorage.setItem('hamza-ad-stats', JSON.stringify(adStats));
+        }
+
+        function loadAdStats() {
+            const saved = localStorage.getItem('hamza-ad-stats');
+            if (saved) {
+                adStats = JSON.parse(saved);
+            }
+        }
+
+        function updateAdStatsDisplay() {
+            // تحديث شريط الإعلانات
+            const totalViewsEl = document.getElementById('totalViews');
+            const totalRevenueEl = document.getElementById('totalAdRevenue');
+            const dashboardViewsEl = document.getElementById('dashboardTotalViews');
+            const dashboardRevenueEl = document.getElementById('dashboardAdRevenue');
+            const dashboardProductsEl = document.getElementById('dashboardProductCount');
+            const statsViewsEl = document.getElementById('statsViews');
+            const statsRevenueEl = document.getElementById('statsRevenue');
+            const statsProductsEl = document.getElementById('statsProducts');
+
+            if (totalViewsEl) totalViewsEl.textContent = adStats.totalViews.toLocaleString();
+            if (totalRevenueEl) totalRevenueEl.textContent = adStats.totalEarnings.toFixed(2);
+            if (dashboardViewsEl) dashboardViewsEl.textContent = adStats.totalViews.toLocaleString();
+            if (dashboardRevenueEl) dashboardRevenueEl.textContent = adStats.totalEarnings.toFixed(2);
+            if (dashboardProductsEl) dashboardProductsEl.textContent = products.length;
+            if (statsViewsEl) statsViewsEl.textContent = adStats.totalViews.toLocaleString();
+            if (statsRevenueEl) statsRevenueEl.textContent = adStats.totalEarnings.toFixed(2);
+            if (statsProductsEl) statsProductsEl.textContent = products.length;
+        }
+
+        // ============ الحماية والأمان ============
+
+        // Sanitize HTML to prevent XSS
+        function sanitizeHTML(str) {
+            const temp = document.createElement('div');
+            temp.textContent = str;
+            return temp.innerHTML;
+        }
+
+        // Rate limiting for login attempts
+        let loginAttempts = 0;
+        let lastLoginAttempt = 0;
+
+        function checkLoginRate() {
+            const now = Date.now();
+            if (now - lastLoginAttempt < 60000) { // 1 minute
+                loginAttempts++;
+                if (loginAttempts > 5) {
+                    alert('تم تجاوز عدد محاولات تسجيل الدخول. انتظر دقيقة ثم حاول مرة أخرى.');
+                    return false;
+                }
+            } else {
+                loginAttempts = 1;
+            }
+            lastLoginAttempt = now;
+            return true;
+        }
+
+        // Validate input against common attack patterns
+        function validateInput(input) {
+            const patterns = [
+                /<script/i,
+                /javascript:/i,
+                /on\w+=/i,
+                /expression\s*\(/i,
+                /url\s*\(/i,
+                /data:/i
+            ];
+            return !patterns.some(pattern => pattern.test(input));
+        }
+
+        // Force registration for certain actions
+        function requireRegistration(action) {
+            if (!currentUser) {
+                alert(`ل${action} يرجى أولاً تسجيل الدخول أو إنشاء حساب جديد.`);
+                showPage('login');
+                return false;
+            }
+            return true;
+        }
+
+        // ============ تصفية المنتجات ============
+
+        function filterByCategory(categoryId) {
+            const filtered = products.filter(p => p.category === categoryId);
+            document.getElementById('allProducts').innerHTML = filtered.map(p => createProductCard(p)).join('');
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            localStorage.setItem('hamza-lang', lang);
+            initApp();
+        }
+
+        function initCategories() {
+            const grid = document.getElementById('categoriesGrid');
+            grid.innerHTML = categories.map(cat => `
+                <a href="#" onclick="showPage('products'); filterByCategory('${cat.id}')" class="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all text-center group cursor-pointer">
+                    <div class="text-5xl mb-3 group-hover:scale-110 transition-transform">${cat.icon}</div>
+                    <h3 class="font-semibold text-gray-900 group-hover:text-primary">${cat.name}</h3>
+                    <span class="text-sm text-gray-500">${cat.count.toLocaleString()} منتج</span>
+                </a>
+            `).join('');
+        }
+
+        function saveProductsToStorage() {
+            localStorage.setItem('hamza-products', JSON.stringify(products));
+        }
+
+        function loadProductsFromStorage() {
+            const saved = localStorage.getItem('hamza-products');
+            if (saved) {
+                products = JSON.parse(saved);
+            }
+        }
+
+        function initProducts() {
+            loadProductsFromStorage();
+
+            const featured = document.getElementById('featuredProducts');
+            const recent = document.getElementById('recentProducts');
+            const all = document.getElementById('allProducts');
+            const noFeatured = document.getElementById('noProductsFeatured');
+            const noRecent = document.getElementById('noProductsRecent');
+            const noAll = document.getElementById('noProductsAll');
+
+            const featuredProducts = products.filter(p => p.featured);
+            const recentProducts = products.slice(0, 6);
+
+            featured.innerHTML = featuredProducts.map(p => createProductCard(p)).join('');
+            recent.innerHTML = recentProducts.map(p => createProductCard(p)).join('');
+            all.innerHTML = products.map(p => createProductCard(p)).join('');
+
+            // إظهار/إخفاء رسائل "لا توجد منتجات"
+            if (featuredProducts.length === 0 && featured) {
+                featured.classList.add('hidden');
+                if (noFeatured) noFeatured.classList.remove('hidden');
+            } else {
+                featured.classList.remove('hidden');
+                if (noFeatured) noFeatured.classList.add('hidden');
+            }
+
+            if (recentProducts.length === 0 && recent) {
+                recent.classList.add('hidden');
+                if (noRecent) noRecent.classList.remove('hidden');
+            } else {
+                recent.classList.remove('hidden');
+                if (noRecent) noRecent.classList.add('hidden');
+            }
+
+            if (products.length === 0 && all) {
+                all.classList.add('hidden');
+                if (noAll) noAll.classList.remove('hidden');
+            } else {
+                all.classList.remove('hidden');
+                if (noAll) noAll.classList.add('hidden');
+            }
+
+            // Populate filters
+            const catSelect = document.getElementById('categoryFilter');
+            const citySelect = document.getElementById('cityFilter');
+
+            if (catSelect) catSelect.innerHTML = '<option value="">جميع الفئات</option>' + categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+            if (citySelect) citySelect.innerHTML = '<option value="">جميع المدن</option>' + cities.map(c => `<option value="${c}">${c}</option>`).join('');
+
+            // Sell page
+            const sellCat = document.getElementById('sellCategory');
+            const sellCity = document.getElementById('sellCity');
+            const regCity = document.getElementById('regCity');
+
+            if (sellCat) sellCat.innerHTML = '<option value="">اختر الفئة</option>' + categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+            if (sellCity) sellCity.innerHTML = '<option value="">اختر المدينة</option>' + cities.map(c => `<option value="${c}">${c}</option>`).join('');
+            if (regCity) regCity.innerHTML = '<option value="">اختر مدينتك</option>' + cities.map(c => `<option value="${c}">${c}</option>`).join('');
+        }
+
+        function createProductCard(product) {
+            const stars = '★'.repeat(Math.floor(product.rating || 0)) + '☆'.repeat(5 - Math.floor(product.rating || 0));
+            const isOwner = currentUser && currentUser.role === 'admin';
+            const soldBadge = product.sold ? '<div class="absolute inset-0 bg-black/60 flex items-center justify-center"><span class="bg-red-600 text-white px-4 py-2 rounded-lg font-bold text-xl">تم البيع ✓</span></div>' : '';
+            const imageOverlay = product.sold ? 'opacity-50' : '';
+
+            return `
+                <div class="card bg-white rounded-xl overflow-hidden cursor-pointer" onclick="showProductDetail(${product.id})">
+                    <div class="relative">
+                        <img src="${product.image}" alt="${product.title}" class="w-full aspect-square object-cover ${imageOverlay}">
+                        ${product.sold ? soldBadge : ''}
+                        ${product.featured && !product.sold ? '<div class="absolute top-3 left-3 bg-gradient-to-r from-amber-400 to-yellow-500 text-white px-3 py-1 rounded-full text-xs font-bold">⭐ مميز</div>' : ''}
+                        ${!product.sold ? `<button onclick="event.stopPropagation(); toggleFavorite(${product.id})" class="absolute top-3 right-3 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center hover:bg-red-50">
+                            <span class="text-gray-400">♥</span>
+                        </button>` : ''}
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-start justify-between gap-2">
+                            <span class="text-xs text-primary font-medium bg-primary/10 px-2 py-1 rounded-full">${categories.find(c => c.id === product.category)?.name || ''}</span>
+                            ${isOwner ? `
+                            <div class="flex gap-1">
+                                <button onclick="event.stopPropagation(); editProduct(${product.id})" class="p-1 bg-blue-100 text-blue-600 rounded hover:bg-blue-200" title="تعديل">✏️</button>
+                                <button onclick="event.stopPropagation(); deleteProduct(${product.id})" class="p-1 bg-red-100 text-red-600 rounded hover:bg-red-200" title="حذف">🗑️</button>
+                                ${!product.sold ? `<button onclick="event.stopPropagation(); markAsSold(${product.id})" class="p-1 bg-green-100 text-green-600 rounded hover:bg-green-200" title="تم البيع">✓</button>` : ''}
+                            </div>
+                            ` : ''}
+                        </div>
+                        <h3 class="mt-2 font-semibold text-gray-900 line-clamp-2 ${product.sold ? 'line-through text-gray-400' : ''}">${product.title}</h3>
+                        <div class="mt-2 flex items-baseline gap-1">
+                            <span class="text-2xl font-bold ${product.sold ? 'text-gray-400' : 'text-primary'}">${product.price.toLocaleString()}</span>
+                            <span class="text-sm text-gray-500">درهم</span>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between text-sm">
+                            <div class="text-yellow-500">${stars} <span class="text-gray-500">(${product.reviews || 0})</span></div>
+                            ${!product.sold ? `<button onclick="event.stopPropagation(); showRatingModal(${product.id})" class="text-xs text-primary hover:underline">قيّم المنتج</button>` : ''}
+                        </div>
+                        <div class="mt-2 flex items-center justify-between text-sm text-gray-500">
+                            <span>📍 ${product.city}</span>
+                            <span>👁 ${product.views || 0}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showProductDetail(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            // تتبع مشاهدة المنتج لعائدات الإعلانات
+            trackProductView(id);
+
+            const content = document.getElementById('productDetailContent');
+            const stars = '★'.repeat(Math.floor(product.rating || 0)) + '☆'.repeat(5 - Math.floor(product.rating || 0));
+
+            content.innerHTML = `
+                <nav class="mb-6 text-sm">
+                    <a href="#" onclick="showPage('home')" class="text-gray-500 hover:text-primary">الرئيسية</a>
+                    <span class="mx-2 text-gray-400">/</span>
+                    <a href="#" onclick="showPage('products')" class="text-gray-500 hover:text-primary">المنتجات</a>
+                    <span class="mx-2 text-gray-400">/</span>
+                    <span class="text-gray-900">${product.title}</span>
+                </nav>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-md">
+                        <img src="${product.image}" alt="${product.title}" class="w-full aspect-square object-cover">
+                    </div>
+                    <div class="space-y-6">
+                        <div class="bg-white rounded-xl p-6 shadow-md">
+                            <span class="text-sm text-primary font-medium bg-primary/10 px-3 py-1 rounded-full">${categories.find(c => c.id === product.category)?.name || ''}</span>
+                            <h1 class="text-2xl md:text-3xl font-bold mt-3">${product.title}</h1>
+                            <div class="flex items-center gap-4 mt-4 text-sm">
+                                <div class="text-yellow-500">${stars}</div>
+                                <span class="text-gray-500">(${product.reviews || 0} تقييم)</span>
+                                <span class="text-gray-500">👁 ${product.views || 0} مشاهدة</span>
+                            </div>
+                            <div class="mt-6">
+                                <div class="text-3xl font-bold text-primary">${product.price.toLocaleString()} درهم</div>
+                            </div>
+                            <div class="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                                <p class="text-green-700 font-medium">💰 كل مشاهدة تحقق لك عائدات!</p>
+                                <p class="text-sm text-green-600">Earn ${AD_REVENUE_CONFIG.earningsPerView} MAD per view</p>
+                            </div>
+                            <div class="flex gap-3 mt-6">
+                                <button class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 flex-1 flex items-center justify-center gap-2">
+                                    💬 تواصل مع البائع
+                                </button>
+                                <button onclick="toggleFavorite(${product.id})" class="border-2 border-primary text-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary hover:text-white">
+                                    ♥ إضافة للمفضلة
+                                </button>
+                            </div>
+                            <div class="mt-6 p-4 bg-gray-50 rounded-lg flex items-center gap-4">
+                                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-xl font-bold text-primary">${(product.seller || 'ب')[0]}</div>
+                                <div>
+                                    <div class="font-semibold">${product.seller || 'بائع موثق'}</div>
+                                    <div class="text-sm text-gray-500">بائع موثق ✓</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Pricing -->
+                        <div class="bg-white rounded-xl p-6 shadow-md">
+                            <button onclick="toggleAIDetail()" class="w-full flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                                        <span>🤖</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="font-semibold">التسعير بالذكاء الاصطناعي</div>
+                                        <div class="text-sm text-gray-500">احصل على السعر المثالي</div>
+                                    </div>
+                                </div>
+                                <span id="aiToggleArrow">▼</span>
+                            </button>
+                            <div id="aiPricingDetail" class="hidden mt-6 pt-6 border-t">
+                                <div class="grid grid-cols-3 gap-4 mb-4">
+                                    <div class="text-center p-4 bg-green-50 rounded-lg">
+                                        <div class="text-xl font-bold text-green-600">${(product.price * 0.85).toLocaleString()}</div>
+                                        <div class="text-xs text-gray-500">الحد الأدنى</div>
+                                    </div>
+                                    <div class="text-center p-4 bg-primary/10 rounded-lg border-2 border-primary">
+                                        <div class="text-xl font-bold text-primary">${(product.price * 0.95).toLocaleString()}</div>
+                                        <div class="text-xs text-gray-500">السعر المقترح</div>
+                                    </div>
+                                    <div class="text-center p-4 bg-blue-50 rounded-lg">
+                                        <div class="text-xl font-bold text-blue-600">${(product.price * 1.1).toLocaleString()}</div>
+                                        <div class="text-xs text-gray-500">الحد الأقصى</div>
+                                    </div>
+                                </div>
+                                <div class="p-4 bg-gray-50 rounded-lg">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-sm text-gray-600">مستوى المنافسة:</span>
+                                        <span class="px-3 py-1 rounded-full text-sm font-medium ${product.price > 10000 ? 'bg-red-100 text-red-700' : product.price > 5000 ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'}">
+                                            ${product.price > 10000 ? 'مرتفع' : product.price > 5000 ? 'متوسط' : 'منخفض'}
+                                        </span>
+                                    </div>
+                                    <p class="text-sm text-gray-600">السعر الحالي مناسب للمنافسة في السوق المحلي.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-xl p-6 shadow-md">
+                            <h3 class="font-semibold mb-4">تفاصيل المنتج</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="flex items-center gap-2 text-gray-600">📍 <span>${product.city}</span></div>
+                                <div><span class="px-3 py-1 bg-gray-100 rounded-full text-sm">${product.condition}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-md mt-8">
+                    <h3 class="font-semibold mb-4">الوصف</h3>
+                    <p class="text-gray-700 leading-relaxed">${product.description}</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-md mt-8">
+                    <h3 class="font-semibold text-xl mb-6">التقييمات (${product.reviews || 0})</h3>
+                    <div class="text-center py-8 text-gray-500">
+                        <p>لا توجد تقييمات بعد</p>
+                        <p class="text-sm mt-2">كن أول من يقيم هذا المنتج!</p>
+                    </div>
+                </div>
+            `;
+
+            showPage('productDetail');
+        }
+
+        function toggleAIDetail() {
+            const detail = document.getElementById('aiPricingDetail');
+            const arrow = document.getElementById('aiToggleArrow');
+            if (detail) {
+                detail.classList.toggle('hidden');
+                arrow.textContent = detail.classList.contains('hidden') ? '▼' : '▲';
+            }
+        }
+
+        function filterProducts() {
+            const search = document.getElementById('productSearch')?.value.toLowerCase() || '';
+            const category = document.getElementById('categoryFilter')?.value || '';
+            const city = document.getElementById('cityFilter')?.value || '';
+
+            const filtered = products.filter(p => {
+                if (search && !p.title.toLowerCase().includes(search)) return false;
+                if (category && p.category !== category) return false;
+                if (city && p.city !== city) return false;
+                return true;
+            });
+
+            document.getElementById('allProducts').innerHTML = filtered.map(p => createProductCard(p)).join('');
+        }
+
+        function searchProducts() {
+            const query = document.getElementById('searchInput')?.value.toLowerCase() || '';
+            if (query.length > 2) {
+                const filtered = products.filter(p => p.title.toLowerCase().includes(query));
+                document.getElementById('recentProducts').innerHTML = filtered.map(p => createProductCard(p)).join('');
+            } else {
+                initProducts();
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+
+            // Rate limiting check
+            if (!checkLoginRate()) return;
+
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const errorDiv = document.getElementById('loginError');
+
+            // Input validation
+            if (!validateInput(email) || !validateInput(password)) {
+                errorDiv.textContent = 'بيانات غير صالحة. يرجى المحاولة مرة أخرى.';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            if (email === 'admin@hamza.ma' && password === 'admin123') {
+                currentUser = { name: 'المدير', email, role: 'admin' };
+                localStorage.setItem('hamza-user', JSON.stringify(currentUser));
+                updateHeader();
+                updateNotificationsVisibility();
+                updateAdBannerVisibility();
+                showPage('dashboard');
+            } else if (email === 'ouyunes@gmail.com' && password === 'admin123') {
+                currentUser = { name: 'يونس', email, role: 'admin' };
+                localStorage.setItem('hamza-user', JSON.stringify(currentUser));
+                updateHeader();
+                updateNotificationsVisibility();
+                updateAdBannerVisibility();
+                showPage('dashboard');
+            } else if (password.length >= 6) {
+                currentUser = { name: email.split('@')[0], email, role: 'user' };
+                localStorage.setItem('hamza-user', JSON.stringify(currentUser));
+                updateHeader();
+                updateNotificationsVisibility();
+                showPage('home');
+            } else {
+                errorDiv.textContent = 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
+                errorDiv.classList.remove('hidden');
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const errorDiv = document.getElementById('registerError');
+
+            if (document.getElementById('regPassword').value.length < 6) {
+                errorDiv.textContent = 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            currentUser = { name, email, role: 'seller' };
+            localStorage.setItem('hamza-user', JSON.stringify(currentUser));
+            updateHeader();
+            showPage('dashboard');
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('hamza-user');
+            updateHeader();
+            updateNotificationsVisibility();
+            updateAdBannerVisibility();
+            showPage('home');
+        }
+
+        function updateHeader() {
+            const loginBtn = document.getElementById('loginBtn');
+            if (currentUser) {
+                loginBtn.textContent = currentUser.name;
+                loginBtn.onclick = () => showPage('dashboard');
+            } else {
+                loginBtn.textContent = 'تسجيل الدخول';
+                loginBtn.onclick = () => showPage('login');
+            }
+        }
+
+        function updateAdBannerVisibility() {
+            const banner = document.getElementById('adRevenueBanner');
+            if (currentUser && currentUser.role === 'admin') {
+                banner.classList.remove('hidden');
+                updateAdStatsDisplay();
+            } else {
+                banner.classList.add('hidden');
+            }
+        }
+
+        function updateDashboard() {
+            if (currentUser) {
+                document.getElementById('dashboardUserName').textContent = currentUser.name;
+                const myProductsDiv = document.getElementById('myProducts');
+                const noMyProductsDiv = document.getElementById('noMyProducts');
+                const myProducts = products.slice(0, 3);
+
+                if (myProducts.length > 0) {
+                    myProductsDiv.innerHTML = myProducts.map(p => `
+                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                            <img src="${p.image}" alt="" class="w-16 h-16 rounded-lg object-cover">
+                            <div class="flex-1">
+                                <div class="font-medium">${p.title}</div>
+                                <div class="text-sm text-gray-500">${p.price.toLocaleString()} درهم</div>
+                                <div class="text-xs text-gray-400">👁 ${p.views || 0} مشاهدة</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="editProduct(${p.id})" class="p-2 bg-blue-100 text-blue-600 rounded-lg">✏️</button>
+                                <button onclick="deleteProduct(${p.id})" class="p-2 bg-red-100 text-red-600 rounded-lg">🗑️</button>
+                            </div>
+                        </div>
+                    `).join('');
+                    myProductsDiv.classList.remove('hidden');
+                    noMyProductsDiv.classList.add('hidden');
+                } else {
+                    myProductsDiv.classList.add('hidden');
+                    noMyProductsDiv.classList.remove('hidden');
+                }
+                loadProfileData();
+                updateAdStatsDisplay();
+            }
+        }
+
+        function showDashboardTab(tab) {
+            const productsTab = document.getElementById('dashboardProductsTab');
+            const settingsTab = document.getElementById('dashboardSettingsTab');
+            const tabProducts = document.getElementById('tabProducts');
+            const tabSettings = document.getElementById('tabSettings');
+
+            if (tab === 'products') {
+                productsTab.classList.remove('hidden');
+                settingsTab.classList.add('hidden');
+                tabProducts.classList.add('text-primary', 'border-primary');
+                tabProducts.classList.remove('text-gray-500');
+                tabSettings.classList.remove('text-primary', 'border-primary');
+                tabSettings.classList.add('text-gray-500');
+            } else {
+                productsTab.classList.add('hidden');
+                settingsTab.classList.remove('hidden');
+                tabSettings.classList.add('text-primary', 'border-primary');
+                tabSettings.classList.remove('text-gray-500');
+                tabProducts.classList.remove('text-primary', 'border-primary');
+                tabProducts.classList.add('text-gray-500');
+                loadProfileData();
+            }
+        }
+
+        function loadProfileData() {
+            const savedProfile = localStorage.getItem('hamza-profile');
+            const savedBank = localStorage.getItem('hamza-bank');
+
+            if (savedProfile) {
+                const profile = JSON.parse(savedProfile);
+                document.getElementById('profileName').value = profile.name || '';
+                document.getElementById('profileEmail').value = profile.email || '';
+                document.getElementById('profilePhone').value = profile.phone || '';
+                document.getElementById('profileCity').value = profile.city || '';
+            }
+
+            if (savedBank) {
+                const bank = JSON.parse(savedBank);
+                document.getElementById('bankName').value = bank.name || '';
+                document.getElementById('bankAccount').value = bank.account || '';
+                document.getElementById('bankIBAN').value = bank.iban || '';
+                document.getElementById('bankSWIFT').value = bank.swift || '';
+
+                // Show current bank info
+                const bankInfoDiv = document.getElementById('currentBankInfo');
+                const displayBankInfo = document.getElementById('displayBankInfo');
+                if (bank.name || bank.account) {
+                    bankInfoDiv.classList.remove('hidden');
+                    displayBankInfo.innerHTML = `
+                        <strong>البنك:</strong> ${bank.name || 'غير محدد'}<br>
+                        <strong>RIB:</strong> ${bank.account ? '****' + bank.account.slice(-4) : 'غير محدد'}
+                    `;
+                }
+            }
+        }
+
+        function saveProfile(e) {
+            e.preventDefault();
+            const profile = {
+                name: document.getElementById('profileName').value,
+                email: document.getElementById('profileEmail').value,
+                phone: document.getElementById('profilePhone').value,
+                city: document.getElementById('profileCity').value
+            };
+            localStorage.setItem('hamza-profile', JSON.stringify(profile));
+
+            // Update current user
+            if (currentUser) {
+                currentUser.name = profile.name;
+                currentUser.email = profile.email;
+                localStorage.setItem('hamza-user', JSON.stringify(currentUser));
+                document.getElementById('dashboardUserName').textContent = profile.name;
+                updateHeader();
+            }
+
+            alert('تم حفظ معلومات الحساب بنجاح ✓');
+        }
+
+        function saveBankAccount(e) {
+            e.preventDefault();
+            const bank = {
+                name: document.getElementById('bankName').value,
+                account: document.getElementById('bankAccount').value,
+                iban: document.getElementById('bankIBAN').value,
+                swift: document.getElementById('bankSWIFT').value
+            };
+            localStorage.setItem('hamza-bank', JSON.stringify(bank));
+
+            // Show confirmation
+            const bankInfoDiv = document.getElementById('currentBankInfo');
+            const displayBankInfo = document.getElementById('displayBankInfo');
+            bankInfoDiv.classList.remove('hidden');
+            displayBankInfo.innerHTML = `
+                <strong>البنك:</strong> ${bank.name || 'غير محدد'}<br>
+                <strong>RIB:</strong> ${bank.account ? '****' + bank.account.slice(-4) : 'غير محدد'}<br>
+                <strong>IBAN:</strong> ${bank.iban ? '****' + bank.iban.slice(-8) : 'غير محدد'}
+            `;
+
+            alert('تم حفظ الحساب البنكي بنجاح ✓');
+        }
+
+        function getAIPrice() {
+            const price = document.getElementById('sellPrice')?.value;
+            if (!price || price <= 0) {
+                alert('يرجى إدخال السعر أولاً');
+                return;
+            }
+            const suggested = Math.round(price * 0.95);
+            document.getElementById('aiSuggestedPrice').textContent = suggested.toLocaleString() + ' درهم';
+            document.getElementById('aiReason').textContent = 'السعر المقترح بناءً على تحليل السوق والمنافسين في المغرب';
+            document.getElementById('aiPricingResult').classList.remove('hidden');
+        }
+
+        function applyAIPrice() {
+            const suggestedPrice = document.getElementById('aiSuggestedPrice').textContent;
+            const priceValue = parseInt(suggestedPrice);
+            document.getElementById('sellPrice').value = priceValue;
+        }
+
+        function handleSell(e) {
+            e.preventDefault();
+
+            // إنشاء منتج جديد
+            const newProduct = {
+                id: Date.now(),
+                title: sanitizeHTML(document.getElementById('sellTitle').value),
+                price: parseInt(document.getElementById('sellPrice').value) || 0,
+                category: document.getElementById('sellCategory').value,
+                condition: document.getElementById('sellCondition').value,
+                city: document.getElementById('sellCity').value,
+                description: sanitizeHTML(document.getElementById('sellDesc').value),
+                seller: currentUser?.name || 'بائع',
+                rating: 0,
+                reviews: 0,
+                views: 0,
+                featured: false,
+                image: 'https://picsum.photos/400/400?random=' + Date.now(),
+                sold: false
+            };
+
+            products.push(newProduct);
+            saveProductsToStorage();
+
+            alert('تم إضافة المنتج بنجاح! 🎉');
+            showPage('dashboard');
+        }
+
+        function handleWholesalePay(e) {
+            e.preventDefault();
+            alert('تم تفعيل الاشتراك بنجاح! 🎉');
+            showPage('home');
+        }
+
+        function handleContact(e) {
+            e.preventDefault();
+            alert('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً');
+            showPage('home');
+        }
+
+        function handleImageUpload(input) {
+            alert('تم رفع الصورة بنجاح!');
+        }
+
+        function initProductsPage() {
+            // Already handled by initProducts()
+        }
+
+        function initApp() {
+            // Check for saved user
+            const savedUser = localStorage.getItem('hamza-user');
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                } catch {}
+            }
+
+            // Check for saved language
+            const savedLang = localStorage.getItem('hamza-lang');
+            if (savedLang) {
+                currentLang = savedLang;
+                document.getElementById('langSelect').value = savedLang;
+                document.documentElement.lang = savedLang;
+                document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+            }
+
+            // Load ad stats
+            loadAdStats();
+
+            initCategories();
+            initProducts();
+            updateHeader();
+            updateNotificationsVisibility();
+            updateAdBannerVisibility();
+            updateAdStatsDisplay();
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+
+<script>
+/**
+ * Iframe 元素高亮注入脚本
+ * 需要在目标网站中引入此脚本来支持跨域 iframe 高亮功能
+ *
+ * 使用方法：
+ * 1. 将此脚本添加到目标网站的 HTML 中
+ * 2. 或通过浏览器扩展、用户脚本等方式注入
+ */
+
+(function () {
+  "use strict";
+
+  // 检查是否在 iframe 中
+  if (window.self === window.top) {
+    return; // 不在 iframe 中，不执行
+  }
+
+  // 检查是否已经初始化过
+  if (window.__iframeHighlightInitialized) {
+    return;
+  }
+  window.__iframeHighlightInitialized = true;
+  console.log("Iframe 高亮脚本已加载");
+
+  // 创建高亮覆盖层
+  var overlay = document.createElement("div");
+  overlay.id = "iframe-highlight-overlay";
+  overlay.style.cssText = "\n    position: fixed;\n    top: 0;\n    left: 0;\n    width: 100vw;\n    height: 100vh;\n    pointer-events: none;\n    z-index: 999999;\n    overflow: hidden;\n  ";
+
+  // 创建悬停高亮框（虚线边框）
+  var highlightBox = document.createElement("div");
+  highlightBox.id = "iframe-highlight-box";
+  highlightBox.style.cssText = "\n    position: absolute;\n    border: 2px dashed #007AFF;\n    background: rgba(0, 122, 255, 0.08);\n    pointer-events: none;\n    display: none;\n    transition: all 0.1s ease;\n    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);\n    border-radius: 2px;\n  ";
+
+  // 创建选中节点的常驻高亮框（实线边框）
+  var selectedBox = document.createElement("div");
+  selectedBox.id = "iframe-selected-box";
+  selectedBox.style.cssText = "\n    position: absolute;\n    border: 2px solid #007AFF;\n    pointer-events: none;\n    display: none;\n    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.9), 0 0 8px rgba(255, 107, 53, 0.4);\n    border-radius: 2px;\n    z-index: 1000000;\n  ";
+
+  // 创建悬停标签显示
+  var tagLabel = document.createElement("div");
+  tagLabel.id = "iframe-tag-label";
+  tagLabel.style.cssText = "\n    position: absolute;\n    background: #007AFF;\n    color: white;\n    padding: 2px 6px;\n    font-size: 11px;\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n    border-radius: 2px;\n    pointer-events: none;\n    display: none;\n    white-space: nowrap;\n    z-index: 1000001;\n    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);\n    font-weight: 500;\n  ";
+
+  // 创建选中节点标签
+  var selectedLabel = document.createElement("div");
+  selectedLabel.id = "iframe-selected-label";
+  selectedLabel.style.cssText = "\n    position: absolute;\n    background: #007AFF;\n    color: white;\n    padding: 3px 8px;\n    font-size: 11px;\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n    border-radius: 3px;\n    pointer-events: none;\n    display: none;\n    white-space: nowrap;\n    z-index: 1000002;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);\n    font-weight: 600;\n  ";
+  overlay.appendChild(highlightBox);
+  overlay.appendChild(selectedBox);
+  overlay.appendChild(tagLabel);
+  overlay.appendChild(selectedLabel);
+  document.body.appendChild(overlay);
+
+  // 存储当前选中的元素
+  var selectedElement = null;
+  var highlightEnabled = false;
+
+  // 更新选中元素的高亮显示
+  function updateSelectedHighlight(element) {
+    console.log("updateSelectedHighlight called with:", element);
+    if (!element) {
+      selectedBox.style.display = "none";
+      selectedLabel.style.display = "none";
+      selectedElement = null;
+      console.log("Cleared selected highlight");
+      return;
+    }
+    selectedElement = element;
+    var rect = element.getBoundingClientRect();
+    console.log("Selected element rect:", rect);
+
+    // 更新选中高亮框位置
+    selectedBox.style.display = "block";
+    selectedBox.style.left = "".concat(rect.left - 2, "px");
+    selectedBox.style.top = "".concat(rect.top - 2, "px");
+    selectedBox.style.width = "".concat(rect.width + 4, "px");
+    selectedBox.style.height = "".concat(rect.height + 4, "px");
+
+    // 更新选中标签位置和内容
+    selectedLabel.style.display = "block";
+    selectedLabel.textContent = "\u2713 <".concat(element.tagName.toLowerCase(), ">");
+
+    // 计算标签位置，确保不超出视窗
+    var labelTop = rect.top - 28;
+    var labelLeft = rect.left;
+
+    // 如果标签会超出顶部，显示在元素下方
+    if (labelTop < 5) {
+      labelTop = rect.bottom + 5;
+    }
+
+    // 如果标签会超出右侧，向左调整
+    var labelWidth = selectedLabel.offsetWidth || 100; // 预估宽度
+    if (labelLeft + labelWidth > window.innerWidth - 10) {
+      labelLeft = window.innerWidth - labelWidth - 10;
+    }
+    selectedLabel.style.left = "".concat(Math.max(5, labelLeft), "px");
+    selectedLabel.style.top = "".concat(labelTop, "px");
+    console.log("Selected highlight positioned at:", {
+      left: selectedBox.style.left,
+      top: selectedBox.style.top,
+      width: selectedBox.style.width,
+      height: selectedBox.style.height
+    });
+  }
+  function getElementSelector(element) {
+    if (!(element instanceof Element)) throw new Error('Argument must be a DOM element');
+    var segments = [];
+    var current = element;
+    while (current !== document.documentElement) {
+      var selector = '';
+      // 优先检查唯一ID
+      if (current.id && document.querySelectorAll("#".concat(current.id)).length === 1) {
+        segments.unshift("#".concat(current.id));
+        break; // ID唯一，无需继续向上
+      }
+
+      // 生成类名选择器（取第一个有效类名）
+      var classes = Array.from(current.classList).filter(function (c) {
+        return !c.startsWith('js-');
+      });
+      var className = classes.length > 0 ? ".".concat(classes[0]) : '';
+
+      // 生成位置索引（nth-child）
+      var tag = current.tagName.toLowerCase();
+      if (!className) {
+        var siblings = Array.from(current.parentNode.children);
+        var index = siblings.findIndex(function (el) {
+          return el === current;
+        }) + 1;
+        selector = "".concat(tag, ":nth-child(").concat(index, ")");
+      } else {
+        selector = className;
+      }
+      segments.unshift(selector);
+      current = current.parentElement;
+    }
+
+    // 处理根元素
+    if (current === document.documentElement) {
+      segments.unshift('html');
+    }
+    return segments.join(' > ');
+  }
+
+  // 获取元素文本内容
+  function getElementText(element) {
+    var _element$textContent;
+    if (element.tagName === "INPUT") {
+      return element.value || element.placeholder || "";
+    }
+    if (element.tagName === "TEXTAREA") {
+      return element.value || element.placeholder || "";
+    }
+    var text = ((_element$textContent = element.textContent) === null || _element$textContent === void 0 ? void 0 : _element$textContent.trim()) || "";
+    return text.length > 50 ? text.substring(0, 50) + "..." : text;
+  }
+
+  // 获取元素属性信息
+  function getElementAttributes(element) {
+    var attrs = {};
+    for (var i = 0; i < element.attributes.length; i++) {
+      var attr = element.attributes[i];
+      attrs[attr.name] = attr.value;
+    }
+    return attrs;
+  }
+
+  // 鼠标悬停事件处理
+  function handleMouseOver(e) {
+    if (!highlightEnabled) return;
+    var target = e.target;
+    if (!target || target === overlay || target === highlightBox || target === tagLabel || target === selectedBox || target === selectedLabel) {
+      return;
+    }
+
+    // 避免高亮 html 和 body 元素
+    if (target === document.documentElement || target === document.body) {
+      return;
+    }
+
+    // 如果是已选中的元素，不显示悬停高亮
+    if (target === selectedElement) {
+      highlightBox.style.display = "none";
+      tagLabel.style.display = "none";
+      return;
+    }
+    var rect = target.getBoundingClientRect();
+    var selector = getElementSelector(target);
+    var text = getElementText(target);
+    var attributes = getElementAttributes(target);
+
+    // 更新悬停高亮框位置
+    highlightBox.style.display = "block";
+    highlightBox.style.left = "".concat(rect.left - 2, "px");
+    highlightBox.style.top = "".concat(rect.top - 2, "px");
+    highlightBox.style.width = "".concat(rect.width + 4, "px");
+    highlightBox.style.height = "".concat(rect.height + 4, "px");
+
+    // 更新标签位置和内容
+    tagLabel.style.display = "block";
+    tagLabel.textContent = "<".concat(target.tagName.toLowerCase(), ">");
+
+    // 计算标签位置，确保不超出视窗
+    var labelTop = rect.top - 22;
+    var labelLeft = rect.left;
+
+    // 如果标签会超出顶部，显示在元素下方
+    if (labelTop < 0) {
+      labelTop = rect.bottom + 5;
+    }
+
+    // 如果标签会超出右侧，向左调整
+    if (labelLeft + tagLabel.offsetWidth > window.innerWidth) {
+      labelLeft = window.innerWidth - tagLabel.offsetWidth - 5;
+    }
+    tagLabel.style.left = "".concat(Math.max(0, labelLeft), "px");
+    tagLabel.style.top = "".concat(labelTop, "px");
+
+    // 发送消息到父窗口
+    var elementInfo = {
+      tagName: target.tagName.toLowerCase(),
+      rect: {
+        left: rect.left,
+        top: rect.top,
+        right: rect.right,
+        bottom: rect.bottom,
+        width: rect.width,
+        height: rect.height,
+        x: rect.x,
+        y: rect.y
+      },
+      selector: selector,
+      text: text,
+      attributes: attributes,
+      url: window.location.href,
+      path: window.location.pathname,
+      timestamp: Date.now()
+    };
+    try {
+      window.parent.postMessage({
+        type: "iframe-element-hover",
+        data: elementInfo,
+        source: "iframe-highlight-injector"
+      }, "*");
+    } catch (error) {
+      console.warn("无法发送消息到父窗口:", error);
+    }
+  }
+
+  // 鼠标离开事件处理
+  function handleMouseOut(e) {
+    if (!highlightEnabled) return;
+    var relatedTarget = e.relatedTarget;
+
+    // 如果鼠标移动到高亮相关元素上，不隐藏高亮
+    if (relatedTarget && (relatedTarget === highlightBox || relatedTarget === tagLabel || relatedTarget === overlay || relatedTarget === selectedBox || relatedTarget === selectedLabel)) {
+      return;
+    }
+    highlightBox.style.display = "none";
+    tagLabel.style.display = "none";
+    try {
+      window.parent.postMessage({
+        type: "iframe-element-hover",
+        data: null,
+        source: "iframe-highlight-injector"
+      }, "*");
+    } catch (error) {
+      console.warn("无法发送消息到父窗口:", error);
+    }
+  }
+
+  // 点击事件处理
+  function handleClick(e) {
+    var target = e.target;
+    if (!target || target === overlay || target === highlightBox || target === tagLabel || target === selectedBox || target === selectedLabel) {
+      return;
+    }
+
+    // 避免处理 html 和 body 元素
+    if (target === document.documentElement || target === document.body) {
+      return;
+    }
+
+    // 检查是否是交互元素，这些元素需要保留默认行为
+    var isInteractiveElement = ['input', 'textarea', 'select', 'button', 'a'].includes(target.tagName.toLowerCase());
+
+    // 如果高亮功能启用，对于非交互元素阻止默认行为和事件传播
+    if (highlightEnabled) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    var rect = target.getBoundingClientRect();
+    var selector = getElementSelector(target);
+    var text = getElementText(target);
+    var attributes = getElementAttributes(target);
+    console.log("Element clicked:", {
+      tagName: target.tagName,
+      selector: selector,
+      rect: rect
+    });
+
+    // 立即更新选中高亮
+    updateSelectedHighlight(target);
+
+    // 隐藏悬停高亮，因为现在是选中状态
+    highlightBox.style.display = "none";
+    tagLabel.style.display = "none";
+    var elementInfo = {
+      tagName: target.tagName.toLowerCase(),
+      rect: {
+        left: rect.left,
+        top: rect.top,
+        right: rect.right,
+        bottom: rect.bottom,
+        width: rect.width,
+        height: rect.height,
+        x: rect.x,
+        y: rect.y
+      },
+      selector: selector,
+      text: text,
+      attributes: attributes,
+      url: window.location.href,
+      path: window.location.pathname,
+      timestamp: Date.now()
+    };
+    try {
+      window.parent.postMessage({
+        type: "iframe-element-click",
+        data: elementInfo,
+        source: "iframe-highlight-injector"
+      }, "*");
+    } catch (error) {
+      console.warn("无法发送消息到父窗口:", error);
+    }
+  }
+
+  // 监听来自父窗口的消息
+  function handleParentMessage(event) {
+    console.log("Received message from parent:", event.data);
+    if (event.data.type === "iframe-highlight-toggle") {
+      var enabled = event.data.enabled;
+      console.log("Highlight toggle:", enabled);
+      if (enabled) {
+        enableHighlight();
+      } else {
+        disableHighlight();
+      }
+    } else if (event.data.type === "enable-iframe-highlight") {
+      console.log("Enable iframe highlight");
+      enableHighlight();
+    } else if (event.data.type === "disable-iframe-highlight") {
+      console.log("Disable iframe highlight");
+      disableHighlight();
+    } else if (event.data.type === "toggle-iframe-highlight") {
+      var _enabled = event.data.enabled !== undefined ? event.data.enabled : !highlightEnabled;
+      console.log("Toggle iframe highlight to:", _enabled);
+      if (_enabled) {
+        enableHighlight();
+      } else {
+        disableHighlight();
+      }
+    } else if (event.data.type === "update-selected-element") {
+      var selector = event.data.selector;
+      console.log("Update selected element with selector:", selector);
+      if (selector) {
+        try {
+          var element = document.querySelector(selector);
+          console.log("Found element by selector:", element);
+          updateSelectedHighlight(element);
+        } catch (error) {
+          console.warn("Failed to select element:", error);
+          updateSelectedHighlight(null);
+        }
+      } else {
+        updateSelectedHighlight(null);
+      }
+    } else if (event.data.type === "clear-selected-element") {
+      console.log("Clear selected element");
+      updateSelectedHighlight(null);
+    }
+  }
+
+  // 启用高亮功能
+  function enableHighlight() {
+    console.log("Enabling highlight");
+    document.addEventListener("mouseover", handleMouseOver, true);
+    document.addEventListener("mouseout", handleMouseOut, true);
+    document.addEventListener("click", handleClick, true);
+    highlightEnabled = true;
+    overlay.style.display = "block";
+  }
+
+  // 禁用高亮功能
+  function disableHighlight() {
+    console.log("Disabling highlight");
+    highlightEnabled = false;
+    // 保持事件监听器，但通过 highlightEnabled 变量控制行为
+    // 这样可以保留选中状态的显示
+    highlightBox.style.display = "none";
+    tagLabel.style.display = "none";
+    // 不隐藏 selectedBox 和 selectedLabel，保留选中状态
+  }
+
+  // 完全禁用高亮功能（移除所有监听器）
+  function fullyDisableHighlight() {
+    console.log("Fully disabling highlight");
+    highlightEnabled = false;
+    document.removeEventListener("mouseover", handleMouseOver, true);
+    document.removeEventListener("mouseout", handleMouseOut, true);
+    document.removeEventListener("click", handleClick, true);
+    overlay.style.display = "none";
+    highlightBox.style.display = "none";
+    tagLabel.style.display = "none";
+    selectedBox.style.display = "none";
+    selectedLabel.style.display = "none";
+  }
+
+  // 添加事件监听
+  enableHighlight();
+  window.addEventListener("message", handleParentMessage);
+
+  // 暴露全局函数供外部调用
+  window.__iframeHighlightControl = {
+    enable: enableHighlight,
+    disable: disableHighlight,
+    fullyDisable: fullyDisableHighlight,
+    isEnabled: function isEnabled() {
+      return highlightEnabled;
+    },
+    getSelectedElement: function getSelectedElement() {
+      return selectedElement;
+    },
+    updateSelected: updateSelectedHighlight,
+    // 通过消息发送开关控制
+    sendToggleMessage: function sendToggleMessage(enabled) {
+      window.parent.postMessage({
+        type: 'iframe-highlight-status',
+        enabled: enabled || highlightEnabled,
+        source: 'iframe-highlight-injector'
+      }, '*');
+    }
+  };
+
+  // 通知父窗口脚本已加载
+  try {
+    window.parent.postMessage({
+      type: "iframe-highlight-ready",
+      data: {
+        url: window.location.href,
+        userAgent: navigator.userAgent,
+        timestamp: Date.now()
+      },
+      source: "iframe-highlight-injector"
+    }, "*");
+  } catch (error) {
+    console.warn("无法发送就绪消息到父窗口:", error);
+  }
+
+  // 清理函数
+  window.__iframeHighlightCleanup = function () {
+    fullyDisableHighlight();
+    window.removeEventListener("message", handleParentMessage);
+    if (overlay.parentElement) {
+      overlay.parentElement.removeChild(overlay);
+    }
+    delete window.__iframeHighlightInitialized;
+    delete window.__iframeHighlightCleanup;
+  };
+})();
+
+</script>
+</body>
+</html>
